@@ -7,7 +7,7 @@ export default function Home() {
   // TODOS:
   // 1. Do a fetch from OPEN AI api [DONE]
   // 2. Display the response [DONE]
-  // 3. Use streaming strategy to display the response
+  // 3. Use streaming strategy to display the response [DONE]
   // 4. Add a form to take user input
   // 5. Improve the UI/UX
   // 6. Update README
@@ -28,11 +28,14 @@ export default function Home() {
         throw new Error('ReadableStream not supported');
       }
 
+      // create a custom readable stream of the response.body
       const reader = response.body.getReader();
+      // use a text decoder to conver the binary data back into utf-8 format
       const decoder = new TextDecoder('utf-8');
       let done = false;
     
       while (!done) {
+        // we stream through the data until we reached done state
         const { value, done: doneReading } = await reader.read();
         done = doneReading;
         const chunk = decoder.decode(value, { stream: true });
