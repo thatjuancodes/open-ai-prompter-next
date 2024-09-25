@@ -1,16 +1,17 @@
 'use client'
 
 import { useState } from "react";
+import ReactMarkdown from 'react-markdown'
 
 export default function Home() {
   // TODOS:
   // 1. Do a fetch from OPEN AI api [DONE]
-  // 2. Display the response
+  // 2. Display the response [DONE]
   // 3. Use streaming strategy to display the response
   // 4. Add a form to take user input
   // 5. Improve the UI/UX
   // 6. Update README
-  const [openAIResponse, setOpenAIResponse] = useState('')
+  const [openAIResponse, setOpenAIResponse] = useState<string | null>(null)
 
   const handleOpenAIRequest = async () => {
     try {
@@ -19,7 +20,7 @@ export default function Home() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify('write a funny joke about a programmer applying for an ai job')
+        body: JSON.stringify('tell me more about optimus prime')
       });
 
       const resultData = await response.json()
@@ -31,10 +32,15 @@ export default function Home() {
   }
 
   return (
-    <div className="text-center flex flex-col items-center">
+    <div className="flex flex-col items-center">
       <h1 className="mt-4 text-4xl font-bold text-center">Open AI Prompter - Built on Next JS</h1>
 
-      <p>{openAIResponse}</p>
+      <div className="text-left mt-10 mx-20">
+        {openAIResponse &&
+          // additional render functions need to be used to make the headings work
+          <ReactMarkdown>{openAIResponse}</ReactMarkdown>
+        }
+      </div>
 
       <button className="mt-10 px-5 py-2 bg-green-500 text-white" onClick={handleOpenAIRequest}>Boom!</button>
     </div>
