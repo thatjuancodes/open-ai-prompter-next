@@ -4,7 +4,7 @@ import { useState } from "react";
 
 export default function Home() {
   // TODOS:
-  // 1. Do a fetch from OPEN AI api
+  // 1. Do a fetch from OPEN AI api [DONE]
   // 2. Display the response
   // 3. Use streaming strategy to display the response
   // 4. Add a form to take user input
@@ -19,12 +19,11 @@ export default function Home() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: 'write a funny joke about a programmer applying for an ai job'
+        body: JSON.stringify('write a funny joke about a programmer applying for an ai job')
       });
 
-      const resultData = response.json()
-      setOpenAIResponse(resultData.body)
-      console.log(`returned: ${response.body}`)
+      const resultData = await response.json()
+      setOpenAIResponse(resultData.result)
     }
     catch (error) {
       console.error(error)

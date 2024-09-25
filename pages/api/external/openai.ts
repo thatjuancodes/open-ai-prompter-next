@@ -1,7 +1,10 @@
 import Error from 'next/error';
 import { OpenAI } from 'openai';
+import dotenv from 'dotenv';
 
-const openai = new OpenAI();
+dotenv.config();
+
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
