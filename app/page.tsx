@@ -23,8 +23,21 @@ export default function Home() {
         body: JSON.stringify('tell me more about optimus prime')
       });
 
-      const resultData = await response.json()
-      setOpenAIResponse(resultData.result)
+      // check if response.body even exists
+      if (!response.body) {
+        throw new Error('ReadableStream not supported');
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder('utf-8');
+      let done = false;
+    
+      while (!done) {
+        const { value, done: doneReading } = await reader.read();
+        done = doneReading;
+        const chunk = decoder.decode(value, { stream: true });
+        setOpenAIResponse((prev) => prev + chunk);
+      }
     }
     catch (error) {
       console.error(error)

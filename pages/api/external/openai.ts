@@ -7,18 +7,33 @@ dotenv.config();
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  res.flushHeaders();
+
   try {
-    const completion = await openai.chat.completions.create({
+    const stream = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
         { role: "user", content: req.body }
-      ]
+      ],
+      stream: true,
     });
 
-    const firstResponse = completion?.choices[0]?.message?.content;
-    return res.status(200).json({ result: firstResponse });
+    for await (const token of stream) {
+      // open api sends the data back as a stream of tokens with a DONE state at the end to signify the end of the stream
+      const content = token.choices[0].delta.content;
+      if (content) {
+        res.write(content);
+        // need to flush to make sure we're streaming back the data as soon as we get new content
+        res.flush();
+      }
+    }
+    res.end();
   }
   catch (error: Error) {
-    return res.status(500).json({ message: 'Failed to fetch response from OpenAI', error: error.message });
+    res.status(500).json({ message: 'Failed to fetch response from OpenAI', error: error.message });
+    res.end();
   }
 }
