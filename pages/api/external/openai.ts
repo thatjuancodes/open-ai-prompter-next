@@ -1,16 +1,15 @@
-import Error from 'next/error';
-import { OpenAI } from 'openai';
-import dotenv from 'dotenv';
+import { OpenAI } from 'openai'
+import dotenv from 'dotenv'
 
-dotenv.config();
+dotenv.config()
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  res.setHeader('Content-Type', 'text/event-stream');
-  res.setHeader('Cache-Control', 'no-cache');
-  res.setHeader('Connection', 'keep-alive');
-  res.flushHeaders();
+  res.setHeader('Content-Type', 'text/event-stream')
+  res.setHeader('Cache-Control', 'no-cache')
+  res.setHeader('Connection', 'keep-alive')
+  res.flushHeaders()
 
   try {
     const stream = await openai.chat.completions.create({
@@ -19,21 +18,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         { role: "user", content: req.body }
       ],
       stream: true,
-    });
+    })
 
     for await (const token of stream) {
       // open api sends the data back as a stream of tokens with a DONE state at the end to signify the end of the stream
-      const content = token.choices[0].delta.content;
+      const content = token.choices[0].delta.content
       if (content) {
-        res.write(content);
+        res.write(content)
         // need to flush to make sure we're streaming back the data as soon as we get new content
-        res.flush();
+        res.flush()
       }
     }
-    res.end();
+    res.end()
   }
-  catch (error: Error) {
-    res.status(500).json({ message: 'Failed to fetch response from OpenAI', error: error.message });
-    res.end();
+  catch (error: unknown) {
+    res.status(500).json({ message: 'Failed to fetch response from OpenAI', error: error.message })
+    res.end()
   }
 }
