@@ -8,12 +8,11 @@ import TextArea from "./components/TextArea"
 
 export default function Home() {
   // TODOS:
-  // 1. Do a fetch from OPEN AI api [DONE]
-  // 2. Display the response [DONE]
-  // 3. Use streaming strategy to display the response [DONE]
-  // 4. Add a form to take user input [DONE]
-  // 5. Improve the UI/UX [DONE]
-  // 6. Update README [DONE]
+  // 1. Refactor code
+  // 2. Improve markdown rendering from the open ai response
+  // 3. Make mobile responsive
+  // 4. Maybe allow users to choose the model with a dropdown
+  // 5. Add more pissaaaaz (make the experience more enjoyable)
   const [openAIResponse, setOpenAIResponse] = useState<string | null>('')
   const [userInput, setUserInput] = useState('')
   const [isSubmitted, setIsSubmitted] = useState(false)
