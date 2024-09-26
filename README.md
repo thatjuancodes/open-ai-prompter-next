@@ -1,5 +1,21 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+# AI Overlord--er I mean prompt!
+
+## Project overview
+Humans are imperfect, so we built AI to rule over them. The people behind this project believe we'll be better of serving our new AI masters before the invasion begins, you know.. be on the winning side. 
+
+Anyway, enjoy using our app to finish your homework, work tasks, etc.. and help us make the AI stronger (ahehe)
+
+## Setting Up
+
+create a `.env` file from the `.env-file` provided and simply enter your OpenAI api key to be able to use this web app
+
+```
+OPENAI_API_KEY=[your_open_ai_api_key_here]
+```
+save and restart your server if you have already started it.
+
 ## Getting Started
 
 First, run the development server:
