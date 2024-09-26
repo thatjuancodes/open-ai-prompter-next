@@ -9,7 +9,7 @@ export default function Home() {
   // 1. Do a fetch from OPEN AI api [DONE]
   // 2. Display the response [DONE]
   // 3. Use streaming strategy to display the response [DONE]
-  // 4. Add a form to take user input
+  // 4. Add a form to take user input [DONE]
   // 5. Improve the UI/UX
   // 6. Update README
   const [openAIResponse, setOpenAIResponse] = useState<string | null>('')
@@ -53,7 +53,7 @@ export default function Home() {
     <div className="flex flex-col items-center p-20">
       <h1 className="mt-4 text-4xl font-bold text-center">Open AI Prompter - Built on Next JS</h1>
 
-      <div className="text-left mt-10 mx-20">
+      <div className="text-left mt-10">
         {openAIResponse &&
           // additional render functions need to be used to make the headings work
           <ReactMarkdown>{openAIResponse}</ReactMarkdown>
