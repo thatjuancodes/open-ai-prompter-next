@@ -14,8 +14,11 @@ export default function Home() {
   // 6. Update README
   const [openAIResponse, setOpenAIResponse] = useState<string | null>('')
   const [userInput, setUserInput] = useState('')
+  const [isSubmitted, setIsSubmitted] = useState(false)
 
   const handleOpenAIRequest = async () => {
+    setIsSubmitted(true)
+
     try {
       const response = await fetch('/api/external/openai', {
         method: 'POST',
@@ -60,14 +63,16 @@ export default function Home() {
         }
       </div>
 
-      <TextInput label="Enter your prompt..." value={userInput} onChange={setUserInput} />
+      <div className={`${isSubmitted ? 'fixed bottom-0 left-16 right-16 pb-10' : 'relative w-full'}`}>
+        <TextInput label="Enter your prompt..." value={userInput} onChange={setUserInput} />
 
-      <button
-        className="mt-5 w-full px-5 py-3 bg-green-500 text-white"
-        onClick={handleOpenAIRequest}
-      >
-        Submit
-      </button>
+        <button
+          className="mt-5 w-full px-5 py-3 bg-green-500 text-white"
+          onClick={handleOpenAIRequest}
+        >
+          Submit
+        </button>
+      </div>
     </div>
   )
 }
