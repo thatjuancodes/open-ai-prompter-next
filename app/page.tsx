@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import ReactMarkdown from 'react-markdown'
+import TextInput from "./components/TextInput"
 
 export default function Home() {
   // TODOS:
@@ -11,7 +12,8 @@ export default function Home() {
   // 4. Add a form to take user input
   // 5. Improve the UI/UX
   // 6. Update README
-  const [openAIResponse, setOpenAIResponse] = useState<string | null>(null)
+  const [openAIResponse, setOpenAIResponse] = useState<string | null>('')
+  const [userInput, setUserInput] = useState('')
 
   const handleOpenAIRequest = async () => {
     try {
@@ -20,7 +22,7 @@ export default function Home() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify('tell me more about optimus prime')
+        body: JSON.stringify(userInput)
       })
 
       // check if response.body even exists
@@ -48,7 +50,7 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center p-20">
       <h1 className="mt-4 text-4xl font-bold text-center">Open AI Prompter - Built on Next JS</h1>
 
       <div className="text-left mt-10 mx-20">
@@ -58,7 +60,14 @@ export default function Home() {
         }
       </div>
 
-      <button className="mt-10 px-5 py-2 bg-green-500 text-white" onClick={handleOpenAIRequest}>Boom!</button>
+      <TextInput label="Enter your prompt..." value={userInput} onChange={setUserInput} />
+
+      <button
+        className="mt-5 w-full px-5 py-3 bg-green-500 text-white"
+        onClick={handleOpenAIRequest}
+      >
+        Submit
+      </button>
     </div>
   )
 }
