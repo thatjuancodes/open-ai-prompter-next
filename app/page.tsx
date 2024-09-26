@@ -58,11 +58,13 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col items-center p-20 h-screen">
-      <h1 className="text-4xl font-bold text-center">Open AI Prompter - Built on Next JS</h1>
+    <div className="flex flex-col items-center px-20 h-screen">
+      {!isSubmitted &&
+        <h1 className="text-4xl font-bold text-center mt-10">Open AI Prompter - Built on Next JS</h1>
+      }
 
       {isSubmitted && (
-        <div className="text-left text-lg text-gray-900 mt-10 h-2/3 pb-5 w-full overflow-y-scroll">
+        <div className={`text-left text-lg text-gray-900 mt-10 ${isSubmitted ? 'h-full' : 'h-2/3'} pb-5 w-full overflow-y-scroll`}>
           {openAIResponse &&
             // additional render functions need to be used to make the headings work
             <ReactMarkdown>{openAIResponse}</ReactMarkdown>
@@ -72,11 +74,11 @@ export default function Home() {
         </div>
       )}
 
-      <div className={`${isSubmitted ? 'fixed bottom-0 left-16 right-16 pb-10' : 'relative w-full'}`}>
+      <div className={`${isSubmitted ? 'fixed bottom-0 left-16 right-16 pb-10' : 'relative w-full'} text-xl rounded`}>
         <TextInput label="Enter your prompt..." value={userInput} onChange={setUserInput} />
 
         <button
-          className="mt-5 w-full px-5 py-3 bg-blue-700 text-white text-2xl hover:bg-blue-600"
+          className="mt-5 w-full px-5 py-3 bg-blue-700 text-white text-xl hover:bg-blue-600 rounded"
           onClick={handleOpenAIRequest}
         >
           Submit
