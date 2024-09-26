@@ -12,8 +12,8 @@ export default function Home() {
   // 2. Display the response [DONE]
   // 3. Use streaming strategy to display the response [DONE]
   // 4. Add a form to take user input [DONE]
-  // 5. Improve the UI/UX
-  // 6. Update README
+  // 5. Improve the UI/UX [DONE]
+  // 6. Update README [DONE]
   const [openAIResponse, setOpenAIResponse] = useState<string | null>('')
   const [userInput, setUserInput] = useState('')
   const [isSubmitted, setIsSubmitted] = useState(false)
