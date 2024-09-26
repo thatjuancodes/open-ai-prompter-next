@@ -3,6 +3,7 @@
 import { useRef, useState } from "react"
 import ReactMarkdown from 'react-markdown'
 import TextInput from "./components/TextInput"
+import styles from "./animation.module.css"
 
 export default function Home() {
   // TODOS:
@@ -72,7 +73,7 @@ export default function Home() {
       }
 
       {isSubmitted && (
-        <div className={`text-left text-lg text-gray-900 mt-10 border border-red-500 pb-5 w-full overflow-y-scroll ${isSubmitted ? 'h-full mb-52' : 'h-2/3'}`}>
+        <div className={`text-left text-lg text-gray-900 mt-10 pb-5 w-full overflow-y-scroll ${isSubmitted ? 'h-full mb-52' : 'h-2/3'}`}>
           {openAIResponse &&
             // additional render functions need to be used to make the headings work
             <ReactMarkdown>{openAIResponse}</ReactMarkdown>
@@ -82,7 +83,7 @@ export default function Home() {
         </div>
       )}
 
-      <div className={`text-xl rounded ${isSubmitted ? 'fixed bottom-0 left-16 right-16 pb-10' : 'relative w-full'}`}>
+      <div className={`transition-transform duration-1000 ease-in-out ${isSubmitted ? `fixed left-16 right-16 transform ${styles.translateY2full} bottom-0` : 'transform relative w-full translate-y-0'}`}>
         <TextInput label="Enter your prompt..." value={userInput} onChange={setUserInput} onKeyDown={handleKeyDown} />
 
         <button

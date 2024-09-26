@@ -1,0 +1,10 @@
+.page {
+  padding: 64px;
+  position: relative;
+  overflow: hidden;
+}
+
+.translateY2full {
+  transform: translateY(-10%);
+  /* transform: translateY(350%); */
+}
