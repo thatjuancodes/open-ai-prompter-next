@@ -19,6 +19,7 @@ export default function Home() {
 
   const handleOpenAIRequest = async () => {
     setIsSubmitted(true)
+    setUserInput('')
 
     try {
       const response = await fetch('/api/external/openai', {
@@ -57,14 +58,21 @@ export default function Home() {
     }
   }
 
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault() // Prevent default form submission
+      handleOpenAIRequest()
+    }
+  }
+
   return (
-    <div className="flex flex-col items-center px-20 h-screen">
+    <div className="flex flex-col items-center px-16 h-screen">
       {!isSubmitted &&
         <h1 className="text-4xl font-bold text-center mt-10">Open AI Prompter - Built on Next JS</h1>
       }
 
       {isSubmitted && (
-        <div className={`text-left text-lg text-gray-900 mt-10 ${isSubmitted ? 'h-full' : 'h-2/3'} pb-5 w-full overflow-y-scroll`}>
+        <div className={`text-left text-lg text-gray-900 mt-10 border border-red-500 pb-5 w-full overflow-y-scroll ${isSubmitted ? 'h-full mb-52' : 'h-2/3'}`}>
           {openAIResponse &&
             // additional render functions need to be used to make the headings work
             <ReactMarkdown>{openAIResponse}</ReactMarkdown>
@@ -74,8 +82,8 @@ export default function Home() {
         </div>
       )}
 
-      <div className={`${isSubmitted ? 'fixed bottom-0 left-16 right-16 pb-10' : 'relative w-full'} text-xl rounded`}>
-        <TextInput label="Enter your prompt..." value={userInput} onChange={setUserInput} />
+      <div className={`text-xl rounded ${isSubmitted ? 'fixed bottom-0 left-16 right-16 pb-10' : 'relative w-full'}`}>
+        <TextInput label="Enter your prompt..." value={userInput} onChange={setUserInput} onKeyDown={handleKeyDown} />
 
         <button
           className="mt-5 w-full px-5 py-3 bg-blue-700 text-white text-xl hover:bg-blue-600 rounded"
