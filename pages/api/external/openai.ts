@@ -1,5 +1,6 @@
 import { OpenAI } from 'openai'
 import dotenv from 'dotenv'
+import type { NextApiRequest, NextApiResponse } from 'next'
 
 dotenv.config()
 
@@ -25,14 +26,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const content = token.choices[0].delta.content
       if (content) {
         res.write(content)
-        // need to flush to make sure we're streaming back the data as soon as we get new content
-        res.flush()
       }
     }
     res.end()
   }
-  catch (error: unknown) {
-    res.status(500).json({ message: 'Failed to fetch response from OpenAI', error: error.message })
+  catch (error) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    res.status(500).json({ message: 'Failed to fetch response from OpenAI', error: errorMessage })
     res.end()
   }
 }

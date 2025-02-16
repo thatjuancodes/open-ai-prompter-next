@@ -9,7 +9,7 @@ const TextArea = ({
 } : TextInputProps) => {
   const [currentValue, setCurrentValue] = useState(value)
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setCurrentValue(e.target.value)
     onChange(e.target.value)
   }
